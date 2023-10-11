@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
+import { URL } from "./env";
 
 interface User {
   login: {
@@ -14,7 +15,7 @@ interface User {
 }
 
 const getRandomUsers = async (count: number): Promise<User[]> => {
-  const response = await axios.get(`https://randomuser.me/api/?results=${count}`);
+  const response = await axios.get(`${URL}?results=${count}`);
   return response.data.results;
 };
 
