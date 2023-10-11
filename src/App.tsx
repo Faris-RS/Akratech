@@ -35,24 +35,18 @@ const App: React.FC = () => {
       try {
         setLoading(true);
         const count = await db.users.count();
-        if (refreshClicked) {
+        if (refreshClicked || count === 0) {
           const randomUsers = await getRandomUsers(50);
           await db.users.clear();
           await db.users.bulkAdd(randomUsers);
           setTotalItems(await db.users.count());
           setUsers(randomUsers);
           setRefreshClicked(false);
-        } else if (count === 0) {
-          const randomUsers = await getRandomUsers(50);
-          await db.users.bulkAdd(randomUsers);
-          setTotalItems(await db.users.count());
-          setUsers(randomUsers);
         } else {
           const usersFromDB = await db.users.toArray();
           setTotalItems(count);
           setUsers(usersFromDB);
         }
-
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
